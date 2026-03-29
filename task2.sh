@@ -17,7 +17,7 @@ submit_job() {
     read -r -p "Priority (1-10): " pr
 
     echo "$sid,$job,$time,$pr" >> $QUEUE
-    log_event "Submitted $job by $sid"
+    log_event "Submitted $job by Student: $sid"
 }
 
 pending_jobs() {
@@ -35,8 +35,8 @@ round_robin() {
             remaining=$((time - quantum))
             echo "$sid,$job,$remaining,$pr" >> $temp
         else
-            echo "$sid,$job completed" >> $DONE
-            log_event "Executed $job by $sid (RR)"
+            echo "$sid,$job has been completed" >> $DONE
+            log_event "Executed $job by the Student ID: $sid (RR)"
         fi
     done < $QUEUE
 
@@ -47,8 +47,8 @@ priority_schedule() {
     sort -t, -k4 -nr $QUEUE | while IFS=, read -r sid job time pr
     do
         sleep 1
-        echo "$sid,$job completed" >> $DONE
-        log_event "Executed $job by $sid (Priority)"
+        echo "$sid,$job has been completed" >> $DONE
+        log_event "Executed $job by the Student ID: $sid (Priority)"
     done
 
     > $QUEUE
