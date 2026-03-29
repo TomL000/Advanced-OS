@@ -58,10 +58,10 @@ while true
 do
     echo "--- Scheduler ---"
     echo "1. View Pending Jobs"
-    echo "2. Submit Job"
+    echo "2. Submit a Job"
     echo "3. Process Queue: Round Robin"
     echo "4. Process Queue: Priority Scheduling"
-    echo "5. View Completed"
+    echo "5. View Completed Jobs"
     echo "6. Exit"
 
     read -r choice
