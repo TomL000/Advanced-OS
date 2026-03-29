@@ -2,14 +2,16 @@
 
 QUEUE="job_queue.txt"
 DONE="completed_jobs.txt"
-LOG="scheduler_log.txt"
+LOG_FILE="scheduler_log.txt"
 
-touch $QUEUE $DONE $LOG
+touch $QUEUE $DONE $LOG_file
 
-log_event() {
-    echo "$(date) - $1" >> $LOG
+# Much like task 1,  log_action echos the date whenever LOG_FILE is called.
+log_action() {
+    echo "$(date) - $1" >> $LOG_FILE
 }
 
+# Reads the Student ID, Job name, Execution time and Priority imputed by the user and stores it as a stubmitted job
 submit_job() {
     read -r -p "Student ID: " sid
     read -r -p "Job Name: " job
@@ -17,13 +19,15 @@ submit_job() {
     read -r -p "Priority (1-10): " pr
 
     echo "$sid,$job,$time,$pr" >> $QUEUE
-    log_event "Submitted $job by Student: $sid"
+    log_action "Submitted $job by Student: $sid"
 }
 
+# Shows all pending jobs found in queue after submitting them
 pending_jobs() {
     cat $QUEUE
 }
 
+# Uses a round robin algorithm to complete one of the jobs with the student ID added on.
 round_robin() {
     quantum=5
     temp="temp.txt"
@@ -36,24 +40,26 @@ round_robin() {
             echo "$sid,$job,$remaining,$pr" >> $temp
         else
             echo "$sid,$job has been completed" >> $DONE
-            log_event "Executed $job by the Student ID: $sid (RR)"
+            log_action "Executed $job by the Student ID: $sid (RR)"
         fi
     done < $QUEUE
 
     mv $temp $QUEUE
 }
 
+# Uses a round priority scheduling to complete one of the jobs with the student ID added on.
 priority_schedule() {
     sort -t, -k4 -nr $QUEUE | while IFS=, read -r sid job time pr
     do
         sleep 1
         echo "$sid,$job has been completed" >> $DONE
-        log_event "Executed $job by the Student ID: $sid (Priority)"
+        log_action "Executed $job by the Student ID: $sid (Priority)"
     done
 
     > $QUEUE
 }
 
+# User Interface, reads imputted options to execute the different functions of the script. Very similar to task 1.
 while true
 do
     echo "--- Scheduler ---"
