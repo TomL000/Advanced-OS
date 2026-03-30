@@ -5,7 +5,7 @@
 ### Task 1 - Menu Options
 1. Show the CPU & Memory Usage
 2. Show the Top Processes
-3. Kill a Process
+3. Kill a Process (Please don't kill vital processes like systemmd or sshd).
 4. Disk Usage Inspection
 5. Archival Logs
 6. Exit
