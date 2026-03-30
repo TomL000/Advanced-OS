@@ -4,7 +4,7 @@ QUEUE="job_queue.txt"
 DONE="completed_jobs.txt"
 LOG_FILE="scheduler_log.txt"
 
-touch $QUEUE $DONE $LOG_FILE
+touch "$QUEUE" "$DONE" "$LOG_FILE"
 
 # Much like task 1,  log_action echos the date whenever LOG_FILE is called.
 log_action() {
@@ -33,14 +33,18 @@ round_robin() {
     temp="temp.txt"
     > $temp
 
-    while IFS=, read -rsid job time pr
+    while IFS=, read -r sid job time pr
     do
+        echo "Processing queue..."
+        cat $QUEUE
         if [ "$time" -gt "$quantum" ]; then
             remaining=$((time - quantum))
             echo "$sid,$job,$remaining,$pr" >> $temp
+            echo "Processed $job (remaining: $remaining)"
         else
             echo "$sid,$job has been completed" >> $DONE
             log_action "Executed $job by the Student ID: $sid (RR)"
+            echo "Completed $job (Round Robin)"
         fi
     done < $QUEUE
 
@@ -51,9 +55,12 @@ round_robin() {
 priority_schedule() {
     sort -t, -k4 -nr $QUEUE | while IFS=, read -r sid job time pr
     do
+        echo "Processing queue..."
+        cat $QUEUE
         sleep 1
         echo "$sid,$job has been completed" >> $DONE
         log_action "Executed $job by the Student ID: $sid (Priority)"
+        echo "Completed $job (Priority Scheduling)"
     done
 
     > $QUEUE
