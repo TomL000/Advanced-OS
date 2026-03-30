@@ -8,7 +8,7 @@ declare -A attempts
 
 # Allows the user to submit a PDF or DOCX file only, else returns invalid.
 submit_file() {
-    read -p "Enter filename: " file
+    read -p "Enter filename with its filetype (for example: "assignment.pdf"): " file
 
     if [[ ! "$file" =~ \.(pdf|docx)$ ]]; then
         echo "Invalid file type!"
@@ -74,6 +74,15 @@ login_attempt() {
     echo "$(date) - Login attempt by $user" >> $LOGIN_LOG
 }
 
+# Allows the user to exit the script with a Y/N answer. 
+exit_system() {
+    read -r -p "Confirm exit (Y/N): " confirm
+    if [[ "$confirm" = "Y" || "$confirm" = "y" ]]; then
+        echo "Bye!"
+        exit 0
+    fi
+}
+
 # User Interface.
 while true
 do
@@ -91,6 +100,6 @@ do
         2) check_duplicate ;;
         3) list_files ;;
         4) login_attempt ;;
-        5) exit ;;
+        5) exit_system ;;
     esac
 done

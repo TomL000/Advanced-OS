@@ -59,6 +59,15 @@ priority_schedule() {
     > $QUEUE
 }
 
+# Allows the user to exit the script with a Y/N answer. 
+exit_system() {
+    read -r -p "Confirm exit (Y/N): " confirm
+    if [[ "$confirm" = "Y" || "$confirm" = "y" ]]; then
+        echo "Bye!"
+        exit 0
+    fi
+}
+
 # User Interface, reads imputted options to execute the different functions of the script. Very similar to task 1.
 while true
 do
@@ -78,6 +87,6 @@ do
         3) round_robin ;;
         4) priority_schedule ;;
         5) cat $DONE ;;
-        6) exit ;;
+        6) exit_system ;;
     esac
 done
