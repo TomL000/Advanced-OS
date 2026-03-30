@@ -18,7 +18,7 @@
 5. View Completed Jobs
 6. Exit
 
-### Task 3 = Menu Options
+### Task 3 - Menu Options
 1. Submit Assignment
 2. Check for Duplicates
 3. List of Submissions
