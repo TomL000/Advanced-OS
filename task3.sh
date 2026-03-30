@@ -25,7 +25,7 @@ submit_file() {
     hash=$(md5sum "$file" | cut -d ' ' -f1)
 
     if grep -q "$hash" $SUBMISSIONS; then
-        echo "Duplicate submission!"
+        echo "This is a Duplicate submission!"
         return
     fi
 
@@ -39,9 +39,9 @@ check_duplicate() {
     hash=$(md5sum "$file" | cut -d ' ' -f1)
 
     if grep -q "$hash" $SUBMISSIONS; then
-        echo "Already submitted"
+        echo "This Assignment has already been submitted"
     else
-        echo "Not submitted"
+        echo "No duplicate was found or has been submitted"
     fi
 }
 
@@ -55,16 +55,16 @@ login_attempt() {
     read -p "Username: " user
     read -p "Password: " pass
 
-    correct="admin123"
+    correct="kali"
 
     now=$(date +%s)
 
     if [[ "$pass" != "$correct" ]]; then
         attempts[$user]=$((attempts[$user]+1))
-        echo "Failed attempt"
+        echo "Attempt failed, please try again."
 
         if [ "${attempts[$user]}" -ge 3 ]; then
-            echo "Account locked!"
+            echo "This account has been locked!"
         fi
     else
         echo "Login successful"
@@ -87,9 +87,9 @@ exit_system() {
 while true
 do
     echo "--- Secure System ---"
-    echo "1. Submit Assignment"
+    echo "1. Submit an Assignment"
     echo "2. Check for Duplicates"
-    echo "3. List of Submissions"
+    echo "3. Show list of Submissions"
     echo "4. Login Attempts Log"
     echo "5. Exit"
 
