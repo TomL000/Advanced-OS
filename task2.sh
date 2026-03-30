@@ -4,7 +4,7 @@ QUEUE="job_queue.txt"
 DONE="completed_jobs.txt"
 LOG_FILE="scheduler_log.txt"
 
-touch $QUEUE $DONE $LOG_file
+touch $QUEUE $DONE $LOG_FILE
 
 # Much like task 1,  log_action echos the date whenever LOG_FILE is called.
 log_action() {
